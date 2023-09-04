@@ -1,65 +1,116 @@
-function getComputerChoice(){
-    let computer_choice = Math.floor(Math.random() * 3) + 1;
-    if(computer_choice==1){
-        return "rock";
-    } else if(computer_choice == 2){
-        return "paper";
-    } else if(computer_choice==3){
-        return "scissor";
+const game = () => {
+
+    let playerWins = 0;
+    let computerWins = 0;
+
+    const playGame = () => {
+        const rockBtn = document.querySelector('.rock');
+        const paperBtn = document.querySelector('.paper');
+        const scissorBtn = document.querySelector('.scissor');
+        const playerOptions = [rockBtn,paperBtn,scissorBtn];
+        const computerOptions = ['rock','paper','scissor']
+
+        const score = document.querySelector('.score');
+        score.innerHTML = `Player Score : ${playerWins} Computer Score : ${computerWins}`;
+          
+        // Function to start playing game
+        playerOptions.forEach(option => {
+            option.addEventListener('click',function(){
+  
+                const choiceNumber = Math.floor(Math.random()*3);
+                const computerChoice = computerOptions[choiceNumber];
+  
+                if(playerWins<5 && computerWins<5){
+                    playRound(this.innerText,computerChoice);
+                }
+
+                score.innerHTML = `Player Score : ${playerWins} Computer Score : ${computerWins}`;
+                
+                if(playerWins==5 || computerWins==5){
+                    gameOver(playerWins, computerWins)
+                }
+                
+            })
+        })
+
     }
-}
-
-function playRound(computerSelection, playerSelection){
-    if(computerSelection=="rock"){
-        if(playerSelection=="paper"){
-            playerWins++;
-            return "you win! paper beats rock"
-        } else if(playerSelection=="scissor"){
-            computerWins++;
-            return "you lose! rock beats scissor"
-        } else {
-            return "Both chose rock"
-        } 
-    } else if(computerSelection=="paper"){
-        if(playerSelection=="paper"){
-            return "Both chose paper"
-        } else if(playerSelection=="scissor"){
-            playerWins++;
-            return "you win! scissor beats paper"
-        } else {
-            computerWins++;
-            return "you lose! paper beats rock"
-        } 
-    } else if(computerSelection=="scissor"){
-        if(playerSelection=="scissor"){
-            return "Both chose scissor"
-        } else if(playerSelection=="rock"){
-            computerWins++;
-            return "you lose! rock beats paper"
-        } else {
-            playerWins++;
-            return "you win! rock beats scissors"
-        } 
-    }
-}
 
 
-function game(){
-    while(playerWins!=5 && computerWins!=5){
-        console.log("Computer Wins : " + computerWins + " Player Wins : " + playerWins);
-        let computerSelection = getComputerChoice();
-        let playerSelection = prompt("Enter your chocie : ");
+    function playRound(playerSelection, computerSelection){
+        const result = document.querySelector('.result');
+        const content = document.createElement('div');
         playerSelection = playerSelection.toLowerCase();
-        console.log(playRound(computerSelection, playerSelection));
+        console.log(playerSelection, computerSelection);
+        if(computerSelection=="rock"){
+            if(playerSelection=="paper"){
+                ++playerWins;
+                console.log(playerWins);
+                //const content = document.createElement('div');
+                content.innerHTML = "you win! paper beats rock";
+                result.appendChild(content);
+            } else if(playerSelection=="scissor"){
+                ++computerWins;
+                //l content = document.createElement('div');
+                content.innerHTML = "you lose! rock beats scissor";
+                result.appendChild(content);
+            } else {
+                //let content = document.createElement('div');
+                content.innerHTML = "Both chose rock";
+                result.appendChild(content);
+            } 
+        } else if(computerSelection=="paper"){
+            if(playerSelection=="paper"){
+                //let content = document.createElement('div');
+                content.innerHTML = "Both chose paper";
+                result.appendChild(content);
+            } else if(playerSelection=="scissor"){
+                ++playerWins;
+                console.log(playerWins);
+                //let content = document.createElement('div');
+                content.innerHTML = "you win! scissor beats paper";
+                result.appendChild(content);
+            } else {
+                ++computerWins;
+                //let content = document.createElement('div');
+                content.innerHTML = "you lose! paper beats rock";
+                result.appendChild(content);
+            } 
+        } else if(computerSelection=="scissor"){
+            if(playerSelection=="scissor"){
+                //let content = document.createElement('div');
+                content.innerHTML = "Both chose scissor";
+                result.appendChild(content);
+            } else if(playerSelection=="rock"){
+                ++playerWins;
+                //let content = document.createElement('div');
+                content.innerHTML = "you win! rock beats scissor";
+                result.appendChild(content);
+            } else {
+                ++computerWins;
+                console.log(playerWins);
+                //let content = document.createElement('div');
+                content.innerHTML = "you lose! scissors beat paper";
+                result.appendChild(content);
+            } 
+        }
     }
-    if(computerWins==5){
-        alert("Computer won the game!");
-    } else{
-        alert("You won the game!");
+
+    const gameOver = (playerWins, computerWins) => {
+        const result = document.querySelector('.result');
+        if(playerWins==5){
+            result.innerHTML = "Game Over! Player Won!"
+        }
+        else{
+            result.innerHTML = "Game Over! Computer Won!";
+        }
     }
+
+    
+playGame();
+    
 
 }
 
-let playerWins = 0;
-let computerWins = 0;
 game();
+
+
