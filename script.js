@@ -12,6 +12,8 @@ const game = () => {
         const computerOptions = ['rock','paper','scissor']
 
         const score = document.querySelector('.score');
+        score.style.fontSize='18px';
+        score.style.fontWeight='bold';
         score.innerHTML = `Player Score : ${playerWins} Computer Score : ${computerWins}`;
           
         // Function to start playing game
